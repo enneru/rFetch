@@ -1,5 +1,5 @@
 use sysinfo::{
-    Disks, System, Users
+    Disks, System
 };
 
 fn main() {
@@ -7,12 +7,9 @@ fn main() {
 
     sys.refresh_all();
 
-    println!("\n\x1b[31mr\x1b[36mFetch\x1b[0m - created by vivi\n\x1b[36m----------------------------------\x1b[0m");
+    println!("\n\x1b[31mr\x1b[36mFetch\x1b[0m - created by enneru\n\x1b[36m----------------------------------\x1b[0m");
 
-    let users = Users::new_with_refreshed_list();
-    for user in users.list() {
-        println!("welcome, {}", user.name());
-    }
+    println!("\x1b[46mwelcome\x1b[0m\x1b[31m {}!\x1b[0m", whoami::username());
     println!("\x1b[46mSystem OS:\x1b[0m {:?}", System::long_os_version().unwrap());
     println!("\x1b[46mKernel:\x1b[0m {:?}", System::kernel_version().unwrap());
 

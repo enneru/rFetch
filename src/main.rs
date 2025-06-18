@@ -1,26 +1,50 @@
+//this is my first rust project, expect many things to be far from perfect
 use sysinfo::{
     Disks, System
 };
+
+const TAB: &str = "\t\t\t\t\t"; //tabs for temporary spacing
+const CLR: &str = "\x1b[0m"; //Clear color
+const RED: &str = "\x1b[31m"; //RED
+const BLUE: &str = "\x1b[36m"; //BLUE
+const YELLOW: &str = "\x1b[33m"; //YELLOW
+const GREEN: &str = "\x1b[32m"; //GREEN
 
 fn main() {
     let mut sys = System::new_all();
 
     sys.refresh_all();
 
-    println!("\n\x1b[31mr\x1b[36mFetch\x1b[0m - created by enneru\n\x1b[36m----------------------------------\x1b[0m");
+    println!("\n{RED}{TAB}r{BLUE}Fetch{CLR} - created by enneru\n{BLUE}------------------------------------------------------------------------------{CLR}");
 
-    println!("\x1b[46mwelcome\x1b[0m\x1b[31m {}!\x1b[0m", whoami::username());
-    println!("\x1b[46mSystem OS:\x1b[0m {:?}", System::long_os_version().unwrap());
-    println!("\x1b[46mKernel:\x1b[0m {:?}", System::kernel_version().unwrap());
+    println!("{TAB}{YELLOW}Welcome{RED}    {}!{CLR}", whoami::username());
+    println!("{TAB}{YELLOW}System OS:{CLR}{:?}", System::long_os_version().unwrap());
+    println!("{TAB}{YELLOW}Kernel:{CLR}   {:?}", System::kernel_version().unwrap());
+    let uptime = System::uptime();
+    let time: String;
+    if uptime <= 60 {
+        time = format!("{uptime}s");
+    } else if uptime > 60 && uptime < 3600 {
+        let m = uptime / 60;
+        let s = uptime % 60;
+        time = format!("{m}m{s}s")
+    } else if uptime > 3600 {
+        let h = uptime / 3600;
+        let m = (uptime / 60) % 60;
+        time = format!("{h}h{m}m");
+    } else {
+        time = format!("{RED}err{CLR}")
+    }
+    println!("{TAB}{YELLOW}Uptime:{CLR}    {time}");
 
     //Memory
-    println!("\x1b[36m==> Memory: <==\x1b[0m");
+    println!("{TAB}{BLUE}==> Memory: <=={CLR}");
     let mem_used = sys.used_memory() / 1000000;
     let mem_total = sys.total_memory() / 1000000;
-    println!("{} / {} MB", mem_used, mem_total);
+    println!("{TAB}{BLUE}Used:{CLR}      {} / {} MB", mem_used, mem_total);
 
     //Disks
-    println!("\x1b[32m==> Disks: <==\x1b[0m");
+    println!("{TAB}{GREEN}==> Disks: <=={CLR}");
     let disks = Disks::new_with_refreshed_list();
     for disk in &disks {
         let disk_used: String;
@@ -39,7 +63,7 @@ fn main() {
             disk_t /= 1000.0;
             disk_total = format!("{disk_t} GB");
         }
-        println!("[{:?}]: {} / {}", disk.name(), disk_used, disk_total);
+        println!("{TAB}{GREEN}{:?}:{CLR} {} / {}", disk.name(), disk_used, disk_total);
     }
 
 }

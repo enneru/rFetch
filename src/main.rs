@@ -3,19 +3,19 @@ use sysinfo::{
     Disks, System
 };
 
-const TAB: &str = "\t\t\t\t\t"; //tabs for temporary spacing
+const TAB: &str = "\t\t\t\t"; //tabs for temporary spacing
 const CLR: &str = "\x1b[0m"; //Clear color
 const RED: &str = "\x1b[31m"; //RED
 const BLUE: &str = "\x1b[36m"; //BLUE
 const YELLOW: &str = "\x1b[33m"; //YELLOW
 const GREEN: &str = "\x1b[32m"; //GREEN
-
+//
 fn main() {
     let mut sys = System::new_all();
 
     sys.refresh_all();
 
-    println!("\n{RED}{TAB}r{BLUE}Fetch{CLR} - created by enneru\n{BLUE}------------------------------------------------------------------------------{CLR}");
+    println!("\n{RED}{TAB}r{BLUE}Fetch{CLR} - created by vivi\n{BLUE}------------------------------------------------------------------------------{CLR}");
 
     println!("{TAB}{YELLOW}Welcome{RED}    {}!{CLR}", whoami::username());
     println!("{TAB}{YELLOW}System OS:{CLR}{:?}", System::long_os_version().unwrap());
@@ -48,8 +48,8 @@ fn main() {
 
     //CPU
     println!("{TAB}{YELLOW}==> CPU <=={CLR}");
-    println!("{TAB}{YELLOW}CPU: {CLR}{} - {}", System::cpu_arch(), sys.cpus()[0].brand());
-    println!("{TAB}{YELLOW}{}{CLR}", sys.global_cpu_usage());
+    println!("{TAB}{YELLOW}CPU: {CLR}{}", sys.cpus()[0].brand());
+    //println!("{TAB}{YELLOW}{}{CLR}", sys.global_cpu_usage());
 
 
     //Disks

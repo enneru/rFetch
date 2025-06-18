@@ -20,6 +20,9 @@ fn main() {
     println!("{TAB}{YELLOW}Welcome{RED}    {}!{CLR}", whoami::username());
     println!("{TAB}{YELLOW}System OS:{CLR}{:?}", System::long_os_version().unwrap());
     println!("{TAB}{YELLOW}Kernel:{CLR}   {:?}", System::kernel_version().unwrap());
+    
+    //uptime stuff- doing basic conversions from seconds to minuts/hours and modifying output text
+    //accordingly
     let uptime = System::uptime();
     let time: String;
     if uptime <= 60 {
@@ -38,13 +41,19 @@ fn main() {
     println!("{TAB}{YELLOW}Uptime:{CLR}    {time}");
 
     //Memory
-    println!("{TAB}{BLUE}==> Memory: <=={CLR}");
+    println!("{TAB}{BLUE}==> Memory <=={CLR}");
     let mem_used = sys.used_memory() / 1000000;
     let mem_total = sys.total_memory() / 1000000;
-    println!("{TAB}{BLUE}Used:{CLR}      {} / {} MB", mem_used, mem_total);
+    println!("{TAB}{BLUE}Used:{CLR}      {}/{} MB", mem_used, mem_total);
+
+    //CPU
+    println!("{TAB}{YELLOW}==> CPU <=={CLR}");
+    println!("{TAB}{YELLOW}CPU: {CLR}{} - {}", System::cpu_arch(), sys.cpus()[0].brand());
+    println!("{TAB}{YELLOW}{}{CLR}", sys.global_cpu_usage());
+
 
     //Disks
-    println!("{TAB}{GREEN}==> Disks: <=={CLR}");
+    println!("{TAB}{GREEN}==> Disks <=={CLR}");
     let disks = Disks::new_with_refreshed_list();
     for disk in &disks {
         let disk_used: String;
